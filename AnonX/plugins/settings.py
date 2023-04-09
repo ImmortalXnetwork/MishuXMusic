@@ -3,7 +3,7 @@ from pyrogram.errors import MessageNotModified
 from pyrogram.types import *
 
 from config import (BANNED_USERS, CLEANMODE_DELETE_MINS,
-                    MUSIC_BOT_NAME, OWNER_ID)
+                    MUSIC_BOT_NAME, OWNER_ID, START_IMG_URL)
 from strings import get_command
 from AnonX import app
 from AnonX.utils.database import (add_nonadmin_chat,
@@ -75,7 +75,6 @@ async def settings_cb(client, CallbackQuery, _):
         reply_markup=InlineKeyboardMarkup(buttons),
     )
 
-
 @app.on_callback_query(
     filters.regex("settingsback_helper") & ~BANNED_USERS
 )
@@ -94,8 +93,13 @@ async def settings_back_markup(
         except:
             OWNER = None
         buttons = private_panel(_, app.username, OWNER)
-        return await CallbackQuery.edit_message_text(
-            _["start_2"].format(MUSIC_BOT_NAME),
+        return await CallbackQuery.edit_message_media(
+            InputMediaAnimation(
+                media=config.START_IMG_URL,
+                caption=_["start_2"].format(
+                    CallbackQuery.from_user.first_name, MUSIC_BOT_NAME
+                ),
+            ),
             reply_markup=InlineKeyboardMarkup(buttons),
         )
     else:
