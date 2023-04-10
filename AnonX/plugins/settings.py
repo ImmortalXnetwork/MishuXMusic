@@ -95,7 +95,7 @@ async def settings_back_markup(
         buttons = private_panel(_, app.username, OWNER)
         return await CallbackQuery.edit_message_media(
             InputMediaAnimation(
-                media=config.START_IMG_URL,  #start_video here
+                media=START_IMG_URL,  #start_video here
                 caption=_["start_2"].format(
                     CallbackQuery.from_user.first_name, MUSIC_BOT_NAME
                 ),
